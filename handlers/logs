@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+container_id="$1"
+lines="${2:-"50"}"
+
+docker logs --tail $lines $container_id
+
