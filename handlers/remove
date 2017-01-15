@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+container_id="$1"
+
+docker rm -f $container_id
+

@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+docker_repository="$1"
+docker_version="${2:-"latest"}"
+: ${DOCKER_NAMESPACE:="nasoym"}
+
+docker ps \
+  --latest \
+  --filter status=running \
+  --filter label="dds" \
+  --filter label="${DOCKER_NAMESPACE}/${docker_repository}:${docker_version}" \
+  --format "{{.ID}}" \
+  || true
+

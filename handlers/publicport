@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+container_id="$1"
+internal_port="$2"
+
+if [[ -z "$internal_port" ]];then
+  docker inspect $container_id \
+    | jq -r '.[0].NetworkSettings.Ports|.[.|keys[-1]][]|.HostPort'
+else
+  docker inspect $container_id \
+    | jq -r --arg port $internal_port '.[0].NetworkSettings.Ports|.[.|keys[]|select(startswith($port))][]|.HostPort'
+  
+fi
+

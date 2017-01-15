@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+docker_repository="$1"
+docker_version="${2:-"latest"}"
+: ${DOCKER_NAMESPACE:="nasoym"}
+
+docker run \
+  --detach \
+  --publish-all \
+  --label="dds" \
+  --label "${DOCKER_NAMESPACE}/${docker_repository}:${docker_version}" \
+  ${DOCKER_NAMESPACE}/${docker_repository}:${docker_version} >&2 >/dev/null \
+  || true
+
