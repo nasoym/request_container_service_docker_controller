@@ -7,3 +7,6 @@ RUN apk --no-cache add docker
 
 ADD handlers /handlers
 
+ENTRYPOINT ["./run.sh"]
+CMD ["-r /handlers", "-d /handlers/default", "-c"]
+
