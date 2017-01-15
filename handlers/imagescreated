@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+: ${DOCKER_NAMESPACE:="nasoym"}
+
+docker images --format "{{.Repository}}:{{.Tag}} {{.CreatedAt}}" ${DOCKER_NAMESPACE}/*
+
