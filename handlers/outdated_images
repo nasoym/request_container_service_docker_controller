@@ -12,7 +12,7 @@
     | jq -s '.|sort_by(.last_updated)|group_by(.name)[]|{name:.[0].name,last_updated:(.|sort_by(.last_updated)|reverse|.[0].last_updated)}' \
     | jq -s -c 'map(select(.name|contains("<none>")|not))[]' \
     | jq -s -c 'map(select(.name|contains("latest")))[]' \
-    | jq -c '.last_updated=(.last_updated|gsub("\\.[0-9]*Z$";"")|strptime("%Y-%m-%d %H:%M:%S %z")|mktime)' \
+    | jq -c '.last_updated=(.last_updated|strptime("%Y-%m-%d %H:%M:%S")|mktime)' \
     | jq -c --arg namespace "${DOCKER_NAMESPACE}" '.name=(.name|gsub("^" + $namespace + "\/";""))' \
     | jq -c '.name=(.name|gsub(":latest$";""))' \
     | jq -c '.type="local"' \
