@@ -5,6 +5,7 @@ RUN echo 'http://dl-4.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositor
 RUN apk --no-cache add jq curl
 RUN apk --no-cache add docker
 RUN apk --no-cache add parallel
+RUN apk --no-cache add diffutils
 
 ADD handlers /handlers
 
