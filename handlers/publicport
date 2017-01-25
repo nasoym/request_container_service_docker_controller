@@ -9,6 +9,5 @@ if [[ -z "$internal_port" ]];then
 else
   docker inspect $container_id \
     | jq -r --arg port $internal_port '.[0].NetworkSettings.Ports|.[.|keys[]|select(startswith($port))][]|.HostPort'
-  
 fi
 

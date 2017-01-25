@@ -11,4 +11,5 @@ docker run \
   --label "${DOCKER_NAMESPACE}/${docker_repository}:${docker_version}" \
   ${DOCKER_NAMESPACE}/${docker_repository}:${docker_version} \
   || true
+echo
 

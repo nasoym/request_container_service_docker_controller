@@ -4,5 +4,5 @@ container_id="$1"
 lines="${2:-"50"}"
 
 docker logs --tail $lines $container_id 2>&1
-
+echo
 

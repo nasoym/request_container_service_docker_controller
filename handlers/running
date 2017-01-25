@@ -11,4 +11,5 @@ docker ps \
   --filter label="${DOCKER_NAMESPACE}/${docker_repository}:${docker_version}" \
   --format "{{.ID}}" \
   || true
+echo
 
