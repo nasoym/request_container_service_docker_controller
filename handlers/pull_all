@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 
 : ${DOCKER_NAMESPACE:="nasoym"}
+: ${PARALLEL_PULLS:="30"}
 
 echo "update all ${DOCKER_NAMESPACE} images" >&2
 
 pulled_images="$(docker images --format "{{.Repository}}:{{.Tag}}" ${DOCKER_NAMESPACE}/* \
   | grep -v "<none>" \
-  | parallel -j 5 \
+  | parallel -L1 -j $PARALLEL_PULLS \
   "docker pull {} \
   | grep 'Downloaded newer image for ' \
   | sed 's/^.*Downloaded newer image for \\(.*\\)\$/\\1/g' \
