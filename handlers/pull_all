@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+: ${DOCKER_NAMESPACE:="nasoym"}
+
+docker images --format "{{.Repository}}:{{.Tag}}" ${DOCKER_NAMESPACE}/* \
+  | grep -v "<none>" \
+  | parallel -j 5 \
+  "docker pull {} \
+  | grep 'Downloaded newer image for ' \
+  | sed 's/^.*Downloaded newer image for \\(.*\\)\$/\\1/g' \
+  "
+
+  # "docker pull {} | grep 'Downloaded newer image for nasoym/minimal_express:latest
+
