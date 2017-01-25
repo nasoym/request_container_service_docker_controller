@@ -2,13 +2,28 @@
 
 : ${DOCKER_NAMESPACE:="nasoym"}
 
-docker images --format "{{.Repository}}:{{.Tag}}" ${DOCKER_NAMESPACE}/* \
+echo "update all ${DOCKER_NAMESPACE} images" >&2
+
+pulled_images="$(docker images --format "{{.Repository}}:{{.Tag}}" ${DOCKER_NAMESPACE}/* \
   | grep -v "<none>" \
   | parallel -j 5 \
   "docker pull {} \
   | grep 'Downloaded newer image for ' \
   | sed 's/^.*Downloaded newer image for \\(.*\\)\$/\\1/g' \
-  "
+  ")"
+
+echo "pulled images: ${pulled_images}" >&2
+
+for image in $pulled_images; do
+  docker_container_id="$(docker ps --filter status=running --filter label="${image}" --filter label="dds" --format "{{.ID}}" || true)"
+  echo "found container for image: ${image} ${docker_container_id}" >&2
+  if [[ -n "$docker_container_id" ]];then
+    echo "relaunch container for image: ${image}" >&2
+    docker run --detach --publish-all --label "${image}" --label="dds" ${image} >&2 >/dev/null || true
+  fi
+done
 
   # "docker pull {} | grep 'Downloaded newer image for nasoym/minimal_express:latest
+echo "${pulled_images}"
+echo
 
