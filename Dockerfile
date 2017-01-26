@@ -1,4 +1,4 @@
-FROM nasoym/bash_socat_server
+FROM nasoym/bash_socat_server:1.0.1
 MAINTAINER Sinan Goo
 
 RUN echo 'http://dl-4.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && apk update 
