@@ -4,9 +4,11 @@ container_id="$1"
 internal_port="$2"
 
 if [[ -z "$internal_port" ]];then
+  echo "$(date +%FT%T): get public port for: $container_id" >&2
   docker inspect $container_id \
     | jq -r '.[0].NetworkSettings.Ports|.[.|keys[-1]][]|.HostPort'
 else
+  echo "$(date +%FT%T): get public port for: $container_id:$internal_port" >&2
   docker inspect $container_id \
     | jq -r --arg port $internal_port '.[0].NetworkSettings.Ports|.[.|keys[]|select(startswith($port))][]|.HostPort'
 fi

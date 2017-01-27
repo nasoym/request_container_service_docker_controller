@@ -4,9 +4,9 @@ minutes="${1:-"30"}"
 : ${DYNAMIC_CONTAINER_LABEL:="dds"}
 
 active_containers="$(docker logs rcs_router 2>&1 | awk -v active=${minutes} '{t=(systime()-60*active); if ($2>t && $4=="docker_request:") {a[$5]=$5}} END {for (i in a){print i}}' ${LOG_FILE})"
-echo "active_containers: $active_containers" >&2
+echo "$(date +%FT%T): active_containers: $active_containers" >&2
 all_containers="$(docker ps --all --filter label="${DYNAMIC_CONTAINER_LABEL}" -q || true)"
-echo "all_containers: $all_containers" >&2
+echo "$(date +%FT%T): all_containers: $all_containers" >&2
 
 inactive_containers="$(diff \
   --unchanged-line-format= \
@@ -14,10 +14,10 @@ inactive_containers="$(diff \
   --new-line-format= \
   <(sort <<<"$all_containers") <(sort <<<"$active_containers")
 )"
-echo "inactive_containers:$inactive_containers" >&2
+echo "i$(date +%FT%T): nactive_containers:$inactive_containers" >&2
 
 for c in $inactive_containers; do
-  echo "remove inactive container: $c" >&2
+  echo "r$(date +%FT%T): emove inactive container: $c" >&2
   docker rm --force ${c}
 done
 

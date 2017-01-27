@@ -5,6 +5,8 @@ docker_version="${2:-"latest"}"
 : ${DOCKER_NAMESPACE:="nasoym"}
 : ${DYNAMIC_CONTAINER_LABEL:="dds"}
 
+echo "$(date +%FT%T): launch container from repo: ${DOCKER_NAMESPACE}/${docker_repository}:${docker_version}" >&2
+
 docker run \
   --detach \
   --publish-all \

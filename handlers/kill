@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 container_id="$1"
+
 echo "$(date +%FT%T): kill container: $container_id" >&2
 
 docker rm -f $container_id 2>&1
