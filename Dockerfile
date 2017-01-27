@@ -1,11 +1,7 @@
 FROM nasoym/bash_socat_server:1.0.2
 MAINTAINER Sinan Goo
 
-RUN echo 'http://dl-4.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && apk update 
-RUN apk --no-cache add jq curl
-RUN apk --no-cache add docker
-RUN apk --no-cache add parallel
-RUN apk --no-cache add diffutils
+RUN apk update && apk --no-cache add jq curl docker parallel diffutils
 
 ADD handlers /handlers
 
