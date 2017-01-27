@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-minutes="${1:-"30"}"
+minutes="${1:-"5"}"
 : ${DYNAMIC_CONTAINER_LABEL:="dds"}
 
 active_containers="$(docker logs rcs_router 2>&1 \
