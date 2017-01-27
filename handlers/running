@@ -3,13 +3,12 @@
 docker_repository="$1"
 docker_version="${2:-"latest"}"
 : ${DOCKER_NAMESPACE:="nasoym"}
+: ${DYNAMIC_CONTAINER_LABEL:="dds"}
 
 docker ps \
   --latest \
   --filter status=running \
-  --filter label="dds" \
+  --filter label="${DYNAMIC_CONTAINER_LABEL}" \
   --filter label="${DOCKER_NAMESPACE}/${docker_repository}:${docker_version}" \
-  --format "{{.ID}}" \
-  || true
-echo
+  --format "{{.ID}}"
 
