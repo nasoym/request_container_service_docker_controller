@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+echo "$(date +%FT%T): kill all dynamic containers" >&2
+
