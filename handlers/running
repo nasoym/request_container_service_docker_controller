@@ -12,5 +12,6 @@ docker ps \
   --filter status=running \
   --filter label="${DYNAMIC_CONTAINER_LABEL}" \
   --filter label="${DOCKER_NAMESPACE}/${docker_repository}:${docker_version}" \
+  --no-trunc \
   --format "{{.ID}}"
 
