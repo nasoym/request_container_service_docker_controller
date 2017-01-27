@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+docker logs rcs_router 2>&1 \
+  | grep "docker_request:" \
+  | awk 'BEGIN{t=systime();} {age=t-$2;if ($5 in a){} else {a[$5]=age};if (a[$5]>age){a[$5]=age} } END {for (i in a){print a[i],i}}' \
+  | sort -rn
+
