@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
 
-docker ps -a || true
-echo
+docker ps -a
 
