@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
 
-docker ps -a
+: ${DYNAMIC_CONTAINER_LABEL:="dds"}
+
+docker ps --all --no-trunc --filter label="${DYNAMIC_CONTAINER_LABEL}" 
 
