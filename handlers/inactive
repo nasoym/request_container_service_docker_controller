@@ -14,10 +14,10 @@ inactive_containers="$(diff \
   --new-line-format= \
   <(sort <<<"$all_containers") <(sort <<<"$active_containers")
 )"
-echo "i$(date +%FT%T): nactive_containers:$inactive_containers" >&2
+echo "$(date +%FT%T): inactive_containers:$inactive_containers" >&2
 
 for c in $inactive_containers; do
-  echo "r$(date +%FT%T): emove inactive container: $c" >&2
+  echo "$(date +%FT%T): remove inactive container: $c" >&2
   docker rm --force ${c}
 done
 
