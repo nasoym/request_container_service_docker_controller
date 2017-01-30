@@ -6,6 +6,9 @@
 
 echo "$(date +%FT%T): update all ${DOCKER_NAMESPACE} images" >&2
 
+# docker images --filter "label=type=request_container" --format "{{.Repository}}:{{.Tag}}" nasoym/*
+# docker images --filter "dangling=true" --format "{{.Repository}}:{{.Tag}}" nasoym/*
+
 pulled_images="$(docker images --format "{{.Repository}}:{{.Tag}}" ${DOCKER_NAMESPACE}/* \
   | grep -v "<none>" \
   | parallel -L1 -j $PARALLEL_PULLS \
