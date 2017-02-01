@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+minutes="${1:-"5"}"
+
+used_images="$(docker logs rcs_router 2>&1 \
+  | awk -v active=${minutes} \
+  '{t=(systime()-60*active); if ($2>t && $4=="docker_request:") {a[$6]=$6}} END {for (i in a){print i}}' \
+  | sed -e 's/^/${DOCKER_NAMESPACE}\//g' \
+  )"
+echo "$(date +%FT%T): used_images: $used_images" >&2
+
+active_images="$(docker ps --format "{{.Image}}" -a)"
+echo "$(date +%FT%T): active_images: $active_images" >&2
+
+active_or_used_images="$( echo -e "${used_images}\n${active_images}" \
+  | sort -u )"
+echo "$(date +%FT%T): active_or_used_images: $active_or_used_images" >&2
+
+all_images="$(docker images --format "{{.Repository}}:{{.Tag}}" ${DOCKER_NAMESPACE}/*)"
+echo "$(date +%FT%T): all_images: $all_images" >&2
+
+unused_images="$(diff \
+  --unchanged-line-format= \
+  --old-line-format='%L' \
+  --new-line-format= \
+  <(sort <<<"$all_images") <(sort <<<"$active_or_used_images")
+)"
+echo "$(date +%FT%T): unused_images:$unused_images" >&2
+
+
