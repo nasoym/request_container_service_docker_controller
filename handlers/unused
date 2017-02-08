@@ -27,4 +27,6 @@ unused_images="$(diff \
 )"
 echo "$(date +%FT%T): unused_images:$unused_images" >&2
 
+echo "$unused_images"
+
 
