@@ -25,7 +25,9 @@ unused_images="$(diff \
   --new-line-format= \
   <(sort <<<"$all_images") <(sort <<<"$active_or_used_images")
 )"
-echo "$(date +%FT%T): unused_images:$unused_images" >&2
+echo "$(date +%FT%T): clear unused_images:$unused_images" >&2
+
+echo "$unused_images" | parallel -L1 docker rmi
 
 echo "$unused_images"
 
