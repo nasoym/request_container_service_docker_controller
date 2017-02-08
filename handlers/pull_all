@@ -30,7 +30,7 @@ done
 
 dangling_images="$(docker images --filter dangling=true --format "{{.ID}} {{.Repository}}:{{.Tag}}")"
 echo "$(date +%FT%T): delete dangling images: ${dangling_images}" >&2
-echo "$dangling_images" | awk '{print $1}' | parallel -L1 docker rmi
+echo "$dangling_images" | awk '{print $1}' | parallel --no-run-if-empty -L1 docker rmi
 
   # "docker pull {} | grep 'Downloaded newer image for nasoym/minimal_express:latest
 echo "${pulled_images}"
